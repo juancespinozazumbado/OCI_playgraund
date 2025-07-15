@@ -66,6 +66,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
+          platforms: linux/arm64          
           tags: |
             ${{ secrets.OCIR_REGION }}.ocir.io/${{ secrets.OCIR_NAMESPACE }}/my-rest-api:latest
             ${{ secrets.OCIR_REGION }}.ocir.io/${{ secrets.OCIR_NAMESPACE }}/my-rest-api:${{ github.sha }}
