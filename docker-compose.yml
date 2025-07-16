@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  oracle-db:
+    image: gvenzl/oracle-free:23-slim
+    container_name: oracle-db
+    ports:
+      - "1521:1521"
+    environment:
+      ORACLE_PASSWORD: mypassword
+    healthcheck:
+      test: ["CMD", "healthcheck.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+
+  bot-api:
+    build: .
+    container_name: bot-api
+    ports:
+      - "4000:4000"
+    environment:
+      DB_USER: "admin"
+      DB_PASSWORD: "mypassword"
+      DB_CONNECT_STRING: "oracle-db:1521/FREEPDB1"
+    depends_on:
+      oracle-db:
+        condition: service_healthy
