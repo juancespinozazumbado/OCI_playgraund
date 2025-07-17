@@ -2,13 +2,15 @@
 const express = require('express');
 const chatRoute = require('./routes/chat.routes');
 require('dotenv').config();
+const cors = require('cors');
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 app.use('/api/chat', chatRoute);
 
-// centralized error handler
+//centralized error handler
 app.use((err, req, res, next) => {
   console.error(err);
   res.status(err.status || 500).json({ error: err.message || 'Internal error' });
